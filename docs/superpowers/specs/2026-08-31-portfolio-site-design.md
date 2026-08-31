@@ -42,7 +42,11 @@ dont-delete-system32/
 └── README.md                # reescrito descrevendo o portfólio (substitui o atual)
 ```
 
-- **i18n**: elementos de texto marcados com `data-i18n="chave"`; `main.js` carrega `pt.json`/`en.json` e substitui o texto. Preferência de idioma salva em `localStorage`; padrão PT se não houver preferência ou se o carregamento falhar.
+- **i18n**: dois mecanismos, conforme a origem do texto:
+  - Texto estático do HTML (nav, títulos de seção, bio, rótulos de botão): elementos marcados com `data-i18n="chave"`; `main.js` carrega `pt.json`/`en.json` e substitui o texto.
+  - Texto orientado a dados (descrição, tags e status de projetos/certificados/serviços em `data.js`): cada campo traduzível é um objeto `{ pt: "...", en: "..." }` em vez de string simples (ex.: `status: { pt: "Em desenvolvimento", en: "In progress" }`). O renderizador de cards em `main.js` lê o campo do idioma ativo.
+  - Preferência de idioma salva em `localStorage`; padrão PT se não houver preferência ou se o carregamento de `pt.json`/`en.json` falhar.
+  - Trocar o idioma dispara: (1) substituição de todo texto `data-i18n`, (2) nova renderização das seções orientadas a dados (Serviços, Projetos, Certificados) no idioma selecionado.
 - **Conteúdo orientado a dados**: projetos, certificados e serviços são objetos em `data.js`, renderizados dinamicamente pelo `main.js`. Adicionar um projeto novo é adicionar um objeto ao array — não exige tocar no HTML.
 - **SEO/meta básico**: `<title>`, `<meta description>`, Open Graph (title/description/image) para preview decente ao compartilhar o link, favicon.
 - **Sem formulário de contato, sem backend, sem link de currículo** (fora de escopo nesta versão).
@@ -86,6 +90,7 @@ dont-delete-system32/
 - Falha ao carregar `pt.json`/`en.json` → texto permanece no PT hardcoded no HTML (nunca fica em branco)
 - `prefers-reduced-motion` ativo → digitação e scroll suave desligados, estado final direto
 - Viewport pequeno → sidebar do hero colapsa antes de cortar conteúdo
+- Falha ao carregar/executar `data.js` ou `main.js` → HTML contém, para cada seção orientada a dados (Serviços, Projetos, Certificados), um bloco `<noscript>`/fallback estático mínimo (lista simples sem cards) para que o conteúdo essencial permaneça visível mesmo sem JavaScript funcional
 
 ## Fora de escopo (nesta versão)
 
@@ -97,9 +102,10 @@ dont-delete-system32/
 ## Verificação
 
 Site estático sem framework de teste automatizado — verificação manual:
-- Navegar todas as seções em PT e EN, checando o toggle de idioma
+- Navegar todas as seções em PT e EN, checando o toggle de idioma — incluindo que os cards de Projetos/Serviços/Certificados (conteúdo vindo de `data.js`) re-renderizam no idioma correto, não só o texto estático
 - Testar em viewport mobile (375px) e desktop (1440px)
 - Checar todos os links de contato (`mailto:`, `wa.me`, LinkedIn, GitHub) e os links de projetos/certificados
 - Rodar Lighthouse (acessibilidade, performance, SEO básico incluindo Open Graph)
 - Validar contraste de texto sobre fundo escuro (WCAG AA)
 - Confirmar que placeholders de imagem aparecem corretamente quando a imagem real está ausente
+- Desabilitar JavaScript no navegador e confirmar que o fallback estático de Serviços/Projetos/Certificados aparece em vez de seções vazias
