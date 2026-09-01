@@ -44,10 +44,10 @@
 
 (`.superpowers/` holds brainstorming-session scratch files from the visual companion tool used during design — not part of the site.)
 
-- [ ] **Step 3: Verify Node test runner works with an empty suite**
+- [ ] **Step 3: Sanity-check `package.json`**
 
-Run: `node --test tests/`
-Expected: `tests 0` (passes, no errors) — confirms `type: module` + test runner wiring before real tests exist.
+Run: `node -e "console.log(JSON.parse(require('fs').readFileSync('package.json','utf8')).name)"`
+Expected: prints `nicolasdamasceno-portfolio` — confirms the file is valid JSON before anything depends on it. (Node's test runner errors on a directory with zero matching test files, so the first real `node --test` run happens in Task 3 once an actual test file exists — not here.)
 
 - [ ] **Step 4: Commit**
 

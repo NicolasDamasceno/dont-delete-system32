@@ -1,4 +1,5 @@
 import { getLocaleField } from './i18n.js';
+import { icons, TONE_ICONS } from './icons.js';
 
 export function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (char) => ({
@@ -13,7 +14,8 @@ export function escapeHtml(value) {
 export function renderStatusBadge(status, locale) {
   const label = getLocaleField(status, locale);
   const tone = status?.tone ?? 'green';
-  return `<span class="badge badge--${escapeHtml(tone)}">${escapeHtml(label)}</span>`;
+  const icon = TONE_ICONS[tone] ?? '';
+  return `<span class="badge badge--${escapeHtml(tone)}">${icon}${escapeHtml(label)}</span>`;
 }
 
 export function renderTechTags(tags = []) {
@@ -41,8 +43,9 @@ export function renderProjects(projects, locale) {
 export function renderServiceCard(service, locale) {
   const title = getLocaleField(service.title, locale);
   const description = getLocaleField(service.description, locale);
+  const icon = icons[service.icon] ?? '';
   return `<article class="card service-card">
-    <div class="service-icon" aria-hidden="true">${service.icon}</div>
+    <div class="service-icon" aria-hidden="true">${icon}</div>
     <h3>${escapeHtml(title)}</h3>
     <p>${escapeHtml(description)}</p>
   </article>`;

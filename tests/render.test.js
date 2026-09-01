@@ -13,9 +13,17 @@ test('escapeHtml escapes all dangerous characters', () => {
   assert.equal(escapeHtml(`<script>&"'</script>`), '&lt;script&gt;&amp;&quot;&#39;&lt;/script&gt;');
 });
 
-test('renderStatusBadge picks the locale label and tone class', () => {
+test('renderStatusBadge picks the locale label, tone class, and includes a tone icon', () => {
   const status = { pt: 'Completo', en: 'Complete', tone: 'green' };
-  assert.equal(renderStatusBadge(status, 'en'), '<span class="badge badge--green">Complete</span>');
+  const html = renderStatusBadge(status, 'en');
+  assert.match(html, /^<span class="badge badge--green"><svg/);
+  assert.match(html, /Complete<\/span>$/);
+});
+
+test('renderStatusBadge renders no icon for an unmapped tone', () => {
+  const status = { pt: 'X', en: 'X', tone: 'purple' };
+  const html = renderStatusBadge(status, 'pt');
+  assert.equal(html, '<span class="badge badge--purple">X</span>');
 });
 
 test('renderTechTags renders one tag element per entry', () => {
@@ -60,15 +68,22 @@ test('renderProjectCard escapes untrusted-looking fields', () => {
   assert.match(html, /&lt;b&gt;x&lt;\/b&gt;/);
 });
 
-test('renderServiceCard includes icon, locale title and description', () => {
+test('renderServiceCard includes a mapped icon, locale title and description', () => {
   const service = {
-    icon: '🌐',
+    icon: 'web',
     title: { pt: 'Título', en: 'Title' },
     description: { pt: 'Desc PT', en: 'Desc EN' }
   };
   const html = renderServiceCard(service, 'pt');
+  assert.match(html, /<svg/);
   assert.match(html, /Título/);
   assert.match(html, /Desc PT/);
+});
+
+test('renderServiceCard renders no icon markup for an unknown icon key', () => {
+  const service = { icon: 'unknown-key', title: { pt: 'T', en: 'T' }, description: { pt: 'D', en: 'D' } };
+  const html = renderServiceCard(service, 'pt');
+  assert.doesNotMatch(html, /<svg/);
 });
 
 test('renderCertificateCard shows a disabled placeholder when there is no link', () => {

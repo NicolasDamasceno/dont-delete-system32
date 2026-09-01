@@ -1,7 +1,7 @@
 export const services = [
   {
     id: 'web-fullstack',
-    icon: '🌐',
+    icon: 'web',
     title: { pt: 'Aplicações web full stack', en: 'Full stack web applications' },
     description: {
       pt: 'Sistemas web completos, do banco de dados à interface, usando Python/Django ou .NET.',
@@ -10,7 +10,7 @@ export const services = [
   },
   {
     id: 'mobile',
-    icon: '📱',
+    icon: 'mobile',
     title: { pt: 'Apps mobile', en: 'Mobile apps' },
     description: {
       pt: 'Aplicativos Android/iOS com React Native e Expo, integrados a APIs próprias.',
@@ -19,7 +19,7 @@ export const services = [
   },
   {
     id: 'db-systems',
-    icon: '🗄️',
+    icon: 'database',
     title: { pt: 'Sistemas com banco de dados', en: 'Database-driven systems' },
     description: {
       pt: 'Cadastro, gestão e dashboards com PostgreSQL ou SQLite, modelados sob medida.',
@@ -28,7 +28,7 @@ export const services = [
   },
   {
     id: 'automation',
-    icon: '⚙️',
+    icon: 'automation',
     title: { pt: 'Automações simples em Python', en: 'Simple Python automations' },
     description: {
       pt: 'Scripts para automatizar tarefas repetitivas — nível inicial, ideal para pequenas demandas.',
@@ -71,7 +71,7 @@ export const projects = [
       en: 'Financial analysis application: stock lookup, balance sheets and portfolios. Backend complete (JWT auth, PostgreSQL); React frontend still in progress.'
     },
     tags: ['.NET', 'C#', 'React', 'TypeScript', 'PostgreSQL'],
-    status: { pt: '🚧 Em desenvolvimento — backend concluído', en: '🚧 In progress — backend complete', tone: 'yellow' },
+    status: { pt: 'Em desenvolvimento — backend concluído', en: 'In progress — backend complete', tone: 'yellow' },
     link: 'https://github.com/NicolasDamasceno/DotNet-Project-Workout'
   }
 ];
